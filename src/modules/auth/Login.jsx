@@ -1,49 +1,34 @@
 import React, { Component } from "react";
-import { withRouter } from "../../layouts/withRouter";
-import "../../App.css";
+import { Navigate } from "react-router-dom";
+import '../../App.css';
 
-class Login extends Component {
-  state = {
-    username: "",
-    password: ""
-  };
+export default class Login extends Component {
+  state = { username: "", password: "", redirect: false };
 
-  handleLogin = () => {
+  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  handleSubmit = (e) => {
+    e.preventDefault();
     const { username, password } = this.state;
-    if (username === "Admin" && password === "A@123") {
-      localStorage.setItem("token", "dummy_token");
-      this.props.router.navigate("/dashboard"); // use navigate from withRouter
-    } else {
-      alert("Invalid credentials");
-    }
+
+    if (username === "admin" && password === "admin") {
+      localStorage.setItem("token", "sample-token");
+      this.setState({ redirect: true });
+    } else alert("Invalid credentials!");
   };
 
   render() {
+    if (this.state.redirect) return <Navigate to="/dashboard" />;
+
     return (
       <div className="login-container">
-        <div className="login-card">
-          <h2 className="login-title">MediNexus Hospital</h2>
-          <p className="login-subtitle">Sign in to your account</p>
-          <input
-            type="text"
-            placeholder="Username"
-            value={this.state.username}
-            onChange={e => this.setState({ username: e.target.value })}
-            className="login-input"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={e => this.setState({ password: e.target.value })}
-            className="login-input"
-          />
-          <button onClick={this.handleLogin} className="login-btn">Login</button>
-          <p className="login-footer">Username: Admin | Password: A@123</p>
-        </div>
+        <form className="login-box" onSubmit={this.handleSubmit}>
+          <h2>MediNexus Login</h2>
+          <input type="text" name="username" placeholder="Username" onChange={this.handleChange} />
+          <input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
+          <button type="submit">Login</button>
+        </form>
       </div>
     );
   }
 }
-
-export default withRouter(Login);
