@@ -23,7 +23,7 @@ export default class Login extends Component {
     return (
       <div className="login-container">
         <form className="login-box" onSubmit={this.handleSubmit}>
-          <h2>MediNexus Login</h2>
+          <h2>Login</h2>
           <input type="text" name="username" placeholder="Username" onChange={this.handleChange} />
           <input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
           <button type="submit">Login</button>
